@@ -2418,5 +2418,5 @@ if(!isset($_SESSION["user"]))
     </body>
 
 
-<!-- Mirrored from ecommerce.com/hyper_2/saas/dashboard-analytics.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 08 May 2023 10:30:53 GMT -->
+<!-- Vista/hyper_2/saas/dashboard-analytics.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 08 May 2023 10:30:53 GMT -->
 </html>
