@@ -13,7 +13,7 @@
                 </a>
             </div>
             <div class="col">
-                <a class="dropdown-icon-item" href="#">
+                <a class="dropdown-icon-item" href="https://github.com/ShouoDirector">
                     <img src="assets/images/brands/github.png" alt="Github">
                     <span>GitHub</span>
                 </a>

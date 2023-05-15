@@ -202,8 +202,59 @@
                     </div>
 
                     <div class="row"> 
+                    <?php
+                            function getTotalFollowers(){
+                                include ('db.php');
+
+                                $sql = "SELECT COUNT(*) AS total FROM contact";
+                                $result = mysqli_query($con, $sql);
+                                $row = mysqli_fetch_assoc($result);
+                                $fl = $row['total'];
+
+                                return $fl;
+                            }
+                        ?>
                         <!-- ============= TOP ROOMS CARD ============= -->
                         <div class="col-xl-5 col-lg-12 order-lg-1 order-xl-1">
+                                <div class="card">
+                                    <?php
+                                        function getTotalProfit() {
+                                            include('db.php');
+                                        
+                                            $sql = "SELECT SUM(fintot) AS total FROM payment";
+                                            $result = mysqli_query($con, $sql);
+                                            $row = mysqli_fetch_assoc($result);
+                                            $tp = round($row['total']);
+                                            $ttp = ($tp * 10) / 100;
+                                            
+                                            return $ttp;
+                                        }                                        
+                                    ?>
+                                    
+                                    <div class="card-body">
+                                        <span class="float-start m-2 me-4">
+                                            <img src="<?php echo $profilePicURL; ?>" style="height: 100px;" alt="avatar-2" class="rounded-circle img-thumbnail">
+                                        </span>
+                                        <div class="">
+                                            <h4 class="mt-1 mb-1"><?php echo $_SESSION["user"]; ?></h4>
+                                            <p class="font-13">Management</p>
+                                    
+                                            <ul class="mb-0 list-inline">
+                                                <li class="list-inline-item me-3">
+                                                    <h5 class="mb-1">₱ <?php echo getTotalProfit() ?></h5>
+                                                    <p class="mb-0 font-13">Total Revenue</p>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <h5 class="mb-1"><?php echo getTotalFollowers() ?></h5>
+                                                    <p class="mb-0 font-13">Number of Followers</p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <!-- end div-->
+                                    </div>
+                                    <!-- end card-body-->
+                                </div>
+
                             <div class="card">
                                 <div class="d-flex card-header justify-content-between align-items-center">
                                     <h4 class="header-title">Top Rooms Selected By Customers</h4>
@@ -261,7 +312,11 @@
                                     </div> <!-- end table-responsive-->
                                 </div> <!-- end card-body-->
                             </div> <!-- end card-->
+
+                            
                         </div> <!-- end col-->
+
+                        
                                     
                         <!-- ============= TOP ROOMS CARD ============= -->
                         <div class="col-lg-4 order-lg-2">
@@ -286,7 +341,7 @@
                                     </div>
 
                                     <div class="card-body pt-0">
-                                        <div id="dash-campaigns-chart" class="apex-charts" data-colors="#ffbc00,#727cf5,#0acf97"></div>
+                                        <div id="dash-campaigns-chart" class="apex-charts" data-colors="#ffbc00,#727cf5,#0acf97, red"></div>
 
                                         <div class="row text-center mt-3">
                                             <div class="col-sm-4">
@@ -318,7 +373,7 @@
                                                 ?>
                                                 <?php
                                                     
-                                                    $getTotal = getTotalCustomers() + getTotalConforms() + getTotalNotConforms() + getTotalPaymentRows();
+                                                    $getTotal = getTotalCustomers() + getTotalConforms() + getTotalNotConforms() + getTotalPaymentRows() + getTotalFollowers();
                                                     $getTotalCustomers = (getTotalCustomers() / $getTotal) * 100;
                                                     $getTotalCurrent = ((getTotalConforms() + getTotalNotConforms()) / $getTotal) * 100;
                                                     $getTotalPaymentRows = (getTotalPaymentRows() / $getTotal) * 100;
@@ -360,6 +415,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                
 
                                 <div class="card-body pt-0">
                                 <div id="average-sales" class="apex-charts mb-4 mt-2"
