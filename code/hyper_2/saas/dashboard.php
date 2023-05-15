@@ -267,7 +267,7 @@
                         <div class="col-lg-4 order-lg-2">
                                 <div class="card">
                                     <div class="card-header d-flex justify-content-between align-items-center">
-                                        <h4 class="header-title">Campaigns</h4>
+                                        <h4 class="header-title">Involvements</h4>
                                         <div class="dropdown">
                                             <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="mdi mdi-dots-vertical"></i>
@@ -290,25 +290,45 @@
 
                                         <div class="row text-center mt-3">
                                             <div class="col-sm-4">
-                                                <i class="mdi mdi-send widget-icon rounded-circle bg-warning-lighten text-warning"></i>
+                                                <i class="ri ri-team-line widget-icon rounded-circle bg-warning-lighten text-warning"></i>
                                                 <h3 class="fw-normal mt-3">
-                                                    <span>6,510</span>
+                                                    <span><?php echo getTotalCustomers(); ?></span>
                                                 </h3>
-                                                <p class="text-muted mb-0 mb-2"><i class="mdi mdi-checkbox-blank-circle text-warning"></i> Total Sent</p>
+                                                <p class="text-muted mb-0 mb-2"><i class="mdi mdi-checkbox-blank-circle text-warning"></i> Customers</p>
                                             </div>
                                             <div class="col-sm-4">
-                                                <i class="mdi mdi-flag-variant widget-icon rounded-circle bg-primary-lighten text-primary"></i>
+                                                <i class="ri ri-contacts-line widget-icon rounded-circle bg-primary-lighten text-primary"></i>
                                                 <h3 class="fw-normal mt-3">
-                                                    <span>3,487</span>
+                                                    <span><?php echo getTotalConforms() + getTotalNotConforms() ?></span>
                                                 </h3>
-                                                <p class="text-muted mb-0 mb-2"><i class="mdi mdi-checkbox-blank-circle text-primary"></i> Reached</p>
+                                                <p class="text-muted mb-0 mb-2"><i class="mdi mdi-checkbox-blank-circle text-primary"></i> Current</p>
                                             </div>
                                             <div class="col-sm-4">
+                                                <?php
+                                                function getTotalPaymentRows() {
+                                                    include('db.php');
+                                                    
+                                                    $sql = "SELECT COUNT(*) AS total FROM payment";
+                                                    $result = mysqli_query($con, $sql);
+                                                    $row = mysqli_fetch_assoc($result);
+                                                    $count_ct = $row['total'];
+                                                    
+                                                    return $count_ct;
+                                                }
+                                                ?>
+                                                <?php
+                                                    
+                                                    $getTotal = getTotalCustomers() + getTotalConforms() + getTotalNotConforms() + getTotalPaymentRows();
+                                                    $getTotalCustomers = (getTotalCustomers() / $getTotal) * 100;
+                                                    $getTotalCurrent = ((getTotalConforms() + getTotalNotConforms()) / $getTotal) * 100;
+                                                    $getTotalPaymentRows = (getTotalPaymentRows() / $getTotal) * 100;
+
+                                                ?>
                                                 <i class="mdi mdi-email-open widget-icon rounded-circle bg-success-lighten text-success"></i>
                                                 <h3 class="fw-normal mt-3">
-                                                    <span>1,568</span>
+                                                    <span><?php echo getTotalPaymentRows(); ?></span>
                                                 </h3>
-                                                <p class="text-muted mb-0 mb-2"><i class="mdi mdi-checkbox-blank-circle text-success"></i> Opened</p>
+                                                <p class="text-muted mb-0 mb-2"><i class="mdi mdi-checkbox-blank-circle text-success"></i> Customers Paid</p>
                                             </div>
                                         </div>
                                     </div>
@@ -430,14 +450,12 @@
     <!-- Analytics Dashboard App js -->
     <script src="assets/js/pages/demo.dashboard-analytics.js"></script>
 
-    <!-- CRM Dashboard Demo App Js -->
-    <script src="assets/js/pages/demo.crm-dashboard.js"></script>
-
     <!-- App js -->
     <script src="assets/js/app.min.js"></script>
 
     <!-- Apexchart js -->
     <?php @include 'includes/demo.dashboard.php' ?>
+    <?php @include 'includes/demo.crm-dashboard.php' ?>
 
 </body>
 

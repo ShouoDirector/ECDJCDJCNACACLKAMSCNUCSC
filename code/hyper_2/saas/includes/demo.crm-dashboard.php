@@ -1,4 +1,10 @@
-var colors = ["#727cf5", "#0acf97", "#fa5c7c", "#ffbc00"],
+<script>
+    var getTotalCustomers = <?php echo number_format($getTotalCustomers, 2, '.', '') ?>;
+    var getTotalCurrent = <?php echo number_format($getTotalCurrent, 2, '.', '') ?>;
+    var getTotalPaymentRows = <?php echo number_format($getTotalPaymentRows, 2, '.', '') ?>;
+
+
+    var colors = ["#727cf5", "#0acf97", "#fa5c7c", "#ffbc00"],
     dataColors = $("#campaign-sent-chart").data("colors"),
     options1 = {
         chart: {
@@ -178,8 +184,8 @@ var colors = ["#727cf5", "#0acf97", "#fa5c7c", "#ffbc00"],
             type: "radialBar"
         },
         colors: colors = dataColors ? dataColors.split(",") : colors,
-        series: [86, 36, 50],
-        labels: ["Total Sent", "Reached", "Opened"],
+        series: [getTotalCustomers, getTotalCurrent, getTotalPaymentRows],
+        labels: ["Total Customers", "Current Customers", "Customers Paid"],
         plotOptions: {
             radialBar: {
                 track: {
@@ -260,3 +266,4 @@ var colors = ["#727cf5", "#0acf97", "#fa5c7c", "#ffbc00"],
         }]
     };
 (chart = new ApexCharts(document.querySelector("#dash-revenue-chart"), options)).render();
+</script>
