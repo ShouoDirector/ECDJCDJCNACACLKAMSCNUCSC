@@ -2418,5 +2418,5 @@ if(!isset($_SESSION["user"]))
     </body>
 
 
-<!--  Vista 1.0.0.3/hyper_2/saas/dashboard-analytics.html  ,   10:30:53 GMT -->
+<!--   Vista 1.0.0.4/hyper_2/saas/dashboard-analytics.html  ,   10:30:53 GMT -->
 </html>
