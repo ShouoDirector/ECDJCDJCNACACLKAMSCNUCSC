@@ -822,10 +822,6 @@
             <div class="col-6">
                 <button type="button" class="btn btn-light w-100" id="reset-layout">Reset</button>
             </div>
-            <div class="col-6">
-                <a href="https://themes.getbootstrap.com/product/hyper-responsive-admin-dashboard-template/"
-                    target="_blank" role="button" class="btn btn-primary w-100">Buy Now</a>
-            </div>
         </div>
     </div>
 </div>
