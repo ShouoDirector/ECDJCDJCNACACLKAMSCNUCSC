@@ -23,7 +23,7 @@ if (isset($_SESSION["user"])) {
 
 <head>
     <meta charset="utf-8" />
-    <title>Log In | Pinarik - Admin Dashboard</title>
+    <title>Log In | Hyper - Admin Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully nature friendly eco resort you can find" name="description" />
     <meta content="Hyper Eco Resort" name="author" />
@@ -59,7 +59,7 @@ if (isset($_SESSION["user"])) {
                         <!-- Logo -->
                         <div class="card-header py-4 text-center opacity-75 bg-dark-subtle">
                             <a href="#">
-                                <span><img src="../assets/images/pinarik.png" alt="logo" height="62"></span>
+                                <span><img src="../assets/images/hyper.png" alt="logo" height="62"></span>
                             </a>
                         </div>
 
@@ -127,7 +127,7 @@ if (isset($_SESSION["user"])) {
     <footer class="footer footer-alt">
         2023 - <script>
             document.write(new Date().getFullYear())
-        </script> © Pinarik - Pinarik-eco-resort-resort-hotel.business.site
+        </script> © Hyper - Hyper-eco-resort-resort-hotel.business.site
     </footer>
     <!-- Vendor js -->
     <script src="../assets/js/vendor.min.js"></script>

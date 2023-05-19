@@ -4,7 +4,7 @@
             <div class="col-md-6">
                 <script>
                     document.write(new Date().getFullYear())
-                </script> © Pinarik - Pinarik-eco-resort-resort-hotel.business.site
+                </script> © Hyper - Hyper-eco-resort-resort-hotel.business.site
             </div>
             <div class="col-md-6">
                 <div class="text-md-end footer-links d-none d-md-block">
