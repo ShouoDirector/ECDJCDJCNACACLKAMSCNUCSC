@@ -169,9 +169,7 @@
                                                                     <span class='badge " . ($status == 'Conform' ? 'badge-success-lighten' : 'badge-danger-lighten') . "'>" . $status . "</span>
                                                                 </td>
                                                                 <td class='text-center'>
-                                                                    <a href='roombook.php?rid=" . $row['id'] . "' class='action-icon'>
-                                                                        <i class='mdi mdi-square-edit-outline'></i>
-                                                                    </a>
+                                                                    <span class='btn btn-sm btn-primary'>Print</span>
                                                                 </td>
                                                             </tr>";
                                                     }

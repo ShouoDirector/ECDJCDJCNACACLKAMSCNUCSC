@@ -49,6 +49,36 @@ if (!isset($_GET["rid"])) {
 }
 ?>
 
+<?php
+include('db.php');
+
+// Check if the form is submitted
+if (isset($_POST['confirmed'])) {
+    $c_id = $_POST['room']; // The selected room ID
+    $conf = $_POST['conf']; // The selected confirmation value
+
+    // Update the 'stat' and 'place' columns in the 'roombook' and 'room' tables respectively
+    $update_query = "UPDATE roombook SET stat = '$conf' WHERE ID = $id";
+    $update_result = mysqli_query($con, $update_query);
+
+    // Check if the update query executed successfully
+    if ($update_result) {
+        $room_update_query = "UPDATE room SET place = 'Occupied', cusid = $id WHERE ID = $c_id";
+        $room_update_result = mysqli_query($con, $room_update_query);
+
+        // Check if the room update query executed successfully
+        if ($room_update_result) {
+            // Redirect to non-conform_status.php
+            header("Location: non-conform_status.php");
+            exit(); // Ensure that the script stops executing after the redirect
+        } else {
+            echo "Failed to update room information.";
+        }
+    } else {
+        echo "Failed to update confirmation status.";
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -94,7 +124,7 @@ if (!isset($_GET["rid"])) {
                                 <ol class="breadcrumb m-0">
                                     <li class="breadcrumb-item"><a href="javascript: void(0);">Pinarik</a></li>
                                     <li class="breadcrumb-item"><a href="javascript: void(0);">Room Booking</a></li>
-                                    <li class="breadcrumb-item active"><?php echo $title. ' ' . $lname. ' ' . $fname; ?>
+                                    <li class="breadcrumb-item active"><?php echo $title. ' ' . $fname. ' ' . $lname; ?>
                                     </li>
                                 </ol>
                             </div>
@@ -186,7 +216,7 @@ if (!isset($_GET["rid"])) {
                                                         </p>
                                                     </div>
                                                     <div class="inbox-item">
-                                                        <p class="inbox-item-author">Meal Plan</p>
+                                                        <p class="inbox-item-author">Total Meal Costs</p>
                                                         <p class="inbox-item-date">
                                                             <a href="#" class="btn btn-sm btn-link text-info font-13">
                                                                 P 999.00 </a>
@@ -388,48 +418,49 @@ if (!isset($_GET["rid"])) {
                                         <form method="post" class="row">
                                             <label>Select the Confirmation</label>
 
-                                                <?php
-                                                include('db.php');
+                                            <?php
+                                            include('db.php');
 
-                                                // Query to retrieve rooms from the 'room' table based on the conditions
-                                                $room_query = "SELECT * FROM room WHERE place = 'Free' AND type = '$troom' AND bedding = '$bed'";
-                                                $room_result = mysqli_query($con, $room_query);
+                                            // Query to retrieve rooms from the 'room' table based on the conditions
+                                            $room_query = "SELECT * FROM room WHERE place = 'Free' AND type = '$troom' AND bedding = '$bed'";
+                                            $room_result = mysqli_query($con, $room_query);
 
-                                                // Check if the query executed successfully
-                                                if ($room_result) {
-                                                    ?>
-                                                    <div class="form-group col-md-12 mt-2">
-                                                    <select class="form-select" name="room" required>
-                                                        <option value="">Select a room</option>
-                                                        <?php
-                                                        // Iterate through the retrieved rows and create option elements
-                                                        while ($row = mysqli_fetch_assoc($room_result)) {
-                                                            $room_id = $row['id'];
-                                                            $room_name = $row['type'];
-                                                            $room_bedding = $row['bedding'];
-                                                            ?>
-                                                            <option value="<?php echo $room_id; ?>"><?php echo $room_name; ?> - <?php echo $room_bedding; ?></option>
-                                                            <?php
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                    </div>
+                                            // Check if the query executed successfully
+                                            if ($room_result) {
+                                            ?>
+                                            <div class="form-group col-md-12 mt-2">
+                                                <select class="form-select" name="room" required>
+                                                    <option value="">Select a room</option>
                                                     <?php
-                                                } else {
-                                                    // Error handling if the query fails
-                                                }
-                                                ?>
+                                                    // Iterate through the retrieved rows and create option elements
+                                                    while ($row = mysqli_fetch_assoc($room_result)) {
+                                                        $room_id = $row['ID'];
+                                                        $room_name = $row['type'];
+                                                        $room_bedding = $row['bedding'];
+                                                    ?>
+                                                    <option value="<?php echo $room_id; ?>">
+                                                        <?php echo $room_name; ?> - <?php echo $room_bedding; ?>
+                                                    </option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <?php
+                                            } else {
+                                                // Error handling if the query fails
+                                            }
+                                            ?>
 
                                             <div class="form-group col-md-12 mt-2">
                                                 <select name="conf" class="form-select mb-2">
                                                     <option value="" selected>Not Conform</option>
-                                                    <option value="Confirm">Conform</option>
+                                                    <option value="Conform">Conform</option> <!-- Corrected option value -->
                                                 </select>
                                             </div>
                                             <div class="col-md-12 mt-2">
-                                                <input type="submit" name="confirmed" value="Conform" class="btn btn-success mb-2 col-12">
+                                                <input type="submit" name="confirmed" class="btn btn-success mb-2 col-12">
                                             </div>
-
                                         </form>
 
                                         </div>
@@ -485,93 +516,3 @@ if (!isset($_GET["rid"])) {
 </body>
 
 </html>
-
-<?php
-if (isset($_POST['co'])) {
-    $st = $_POST['conf'];
-
-    if ($st == "Conform") {
-        $id = $_POST['id'];
-
-        $urb = "UPDATE `roombook` SET `stat`=? WHERE id = ?";
-        $stmt = $con->prepare($urb);
-        $stmt->bind_param("ss", $st, $id);
-        $stmt->execute();
-
-        $f1 = ""; // Assuming $f1, $f2, $f3, $f4 variables are defined somewhere
-        $f2 = "";
-        $f3 = "";
-        $f4 = "";
-
-        if ($f1 == "NO") {
-            echo "<script type='text/javascript'> alert('Sorry! Not Available Superior Room ')</script>";
-        } else if ($f2 == "NO") {
-            echo "<script type='text/javascript'> alert('Sorry! Not Available Guest House')</script>";
-        } else if ($f3 == "NO") {
-            echo "<script type='text/javascript'> alert('Sorry! Not Available Single Room')</script>";
-        } else if ($f4 == "NO") {
-            echo "<script type='text/javascript'> alert('Sorry! Not Available Deluxe Room')</script>";
-        } else {
-            $type_of_room = 0;
-
-            if ($troom == "Superior Room") {
-                $type_of_room = 320;
-            } else if ($troom == "Deluxe Room") {
-                $type_of_room = 220;
-            } else if ($troom == "Guest House") {
-                $type_of_room = 180;
-            } else if ($troom == "Single Room") {
-                $type_of_room = 150;
-            }
-
-            $type_of_bed = 0;
-
-            if ($bed == "Single") {
-                $type_of_bed = $type_of_room * 1 / 100;
-            } else if ($bed == "Double") {
-                $type_of_bed = $type_of_room * 2 / 100;
-            } else if ($bed == "Triple") {
-                $type_of_bed = $type_of_room * 3 / 100;
-            } else if ($bed == "Quad") {
-                $type_of_bed = $type_of_room * 4 / 100;
-            } else if ($bed == "None") {
-                $type_of_bed = $type_of_room * 0 / 100;
-            }
-
-            $type_of_meal = 0;
-
-            if ($meal == "Room only") {
-                $type_of_meal = $type_of_bed * 0;
-            } else if ($meal == "Breakfast") {
-                $type_of_meal = $type_of_bed * 2;
-            } else if ($meal == "Half Board") {
-                $type_of_meal = $type_of_bed * 3;
-            } else if ($meal == "Full Board") {
-                $type_of_meal = $type_of_bed * 4;
-            }
-
-            $ttot = $type_of_room * $days * $nroom;
-            $mepr = $type_of_meal * $days;
-            $btot = $type_of_bed * $days;
-
-            $fintot = $ttot + $mepr + $btot;
-
-            $psql = "INSERT INTO `payment`(`id`, `title`, `fname`, `lname`, `troom`, `tbed`, `nroom`, `cin`, `cout`, `ttot`, `meal`, `mepr`, `btot`, `fintot`, `noofdays`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            $pstmt = $con->prepare($psql);
-            $pstmt->bind_param("sssssssssssssss", $id, $title, $fname, $lname, $troom, $bed, $nroom, $cin, $cout, $ttot, $meal, $mepr, $btot, $fintot, $days);
-            
-            if ($pstmt->execute()) {
-                $notfree = "NotFree";
-                $rpsql = "UPDATE `room` SET `place`=?, `cusid`=? WHERE bedding=? AND type=?";
-                $rpstmt = $con->prepare($rpsql);
-                $rpstmt->bind_param("ssss", $notfree, $id, $bed, $troom);
-                
-                if ($rpstmt->execute()) {
-                    echo "<script type='text/javascript'> alert('Booking Conform')</script>";
-                    echo "<script type='text/javascript'> window.location='roombook.php'</script>";
-                }
-            }
-        }
-    }
-}
-?>
