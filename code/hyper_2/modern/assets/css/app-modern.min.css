@@ -2492,7 +2492,6 @@ progress {
     --ct-table-border-color: var(--ct-border-color);
     --ct-table-accent-bg: transparent;
     --ct-table-striped-color: var(--ct-body-color);
-    --ct-table-striped-bg: rgba(var(--ct-tertiary-bg-rgb), 1);
     --ct-table-active-color: var(--ct-body-color);
     --ct-table-active-bg: rgba(var(--ct-tertiary-bg-rgb), 1);
     --ct-table-hover-color: var(--ct-body-color);

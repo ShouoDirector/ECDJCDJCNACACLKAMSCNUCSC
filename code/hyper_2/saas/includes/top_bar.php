@@ -7,20 +7,20 @@
                             <!-- Logo light -->
                             <a href="#" class="logo-light">
                                 <span class="logo-lg">
-                                    <img src="/code/hyper_2/saas/assets/images/logo.png" alt="logo">
+                                    <img src="https://cdn-icons-png.flaticon.com/128/3074/3074046.png" alt="logo">
                                 </span>
                                 <span class="logo-sm">
-                                <img src="/code/hyper_2/saas/assets/images/logo-sm.png" alt="logo">
+                                <img src="https://cdn-icons-png.flaticon.com/128/3074/3074046.pngg" alt="logo">
                                 </span>
                             </a>
 
                             <!-- Logo Dark -->
                             <a href="#" class="logo-dark">
                                 <span class="logo-lg">
-                                <img src="/code/hyper_2/saas/assets/images/logo-dark.png" alt=" dark logo">
+                                <img src="https://cdn-icons-png.flaticon.com/128/3074/3074046.png" alt=" dark logo">
                                 </span>
                                 <span class="logo-sm">
-                                <img src="/code/hyper_2/saas/assets/images/logo-dark-sm.png" alt="logo">
+                                <img src="https://cdn-icons-png.flaticon.com/128/3074/3074046.png" alt="logo">
                                 </span>
                             </a>
                         </div>

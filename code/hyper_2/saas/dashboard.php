@@ -46,7 +46,7 @@
                             <div class="page-title-box">
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Pinarik</a></li>
                                         <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
                                         <li class="breadcrumb-item active">Analytics</li>
                                     </ol>
@@ -191,7 +191,7 @@
                                         </div>
                                         <div class="col-6">
                                             <div class="text-end">
-                                                <img src="https://cdn-icons-png.flaticon.com/128/4333/4333609.png"
+                                                <img src="https://cdn-icons-png.flaticon.com/128/1256/1256650.png"
                                                     alt="Not Conform" width="60px">
                                             </div>
                                         </div>

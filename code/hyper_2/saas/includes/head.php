@@ -1,10 +1,10 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+        <meta content="A fully featured full stack" name="description" />
         <meta content="Ecommerce" name="author" />
 
         <!-- App favicon -->
-        <link rel="shortcut icon" href="assets/images/favicon.ico">
+        <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/128/3074/3074046.png">
 
         <!-- Plugin css -->
         <link rel="stylesheet" href="assets/vendor/daterangepicker/daterangepicker.css">
@@ -18,3 +18,7 @@
 
         <!-- Icons css -->
         <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+
+        <!-- Datatable css -->
+        <link href="assets/vendor/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+        <link href="assets/vendor/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css" rel="stylesheet" type="text/css" />

@@ -1,22 +1,22 @@
 <div class="leftside-menu">
 
 <!-- Brand Logo Light -->
-<a href="index.html" class="logo logo-light">
+<a href="dashboard.php" class="logo logo-light">
     <span class="logo-lg">
-        <img src="assets/images/logo.png" alt="logo">
+        <img src="https://cdn-icons-png.flaticon.com/128/3074/3074046.png" alt="logo"> <span style="font-size: 16px; font-weight: bold;">Pinarik</span>
     </span>
     <span class="logo-sm">
-        <img src="assets/images/logo-sm.png" alt="small logo">
+        <img src="https://cdn-icons-png.flaticon.com/128/3074/3074046.png" alt="small logo">
     </span>
 </a>
 
 <!-- Brand Logo Dark -->
-<a href="index.html" class="logo logo-dark">
+<a href="dashboard.php" class="logo logo-dark">
     <span class="logo-lg">
-        <img src="assets/images/logo-dark.png" alt="dark logo">
+        <img src="https://cdn-icons-png.flaticon.com/128/3074/3074046.png" alt="dark logo"> <span style="font-size: 16px; font-weight: bold;">Pinarik</span>
     </span>
     <span class="logo-sm">
-        <img src="assets/images/logo-dark-sm.png" alt="small logo">
+        <img src="https://cdn-icons-png.flaticon.com/128/3074/3074046.pngg" alt="small logo">
     </span>
 </a>
 
@@ -45,7 +45,7 @@
 
         <li class="side-nav-title">Navigation</li>
 
-        <li class="side-nav-item">
+        <li class="side-nav-item active">
             <a data-bs-toggle="collapse" href="#sidebarDashboards" aria-expanded="false" aria-controls="sidebarDashboards" class="side-nav-link">
                 <i class="uil-home-alt"></i>
                 <!-- <span class="badge bg-success float-end">5</span> -->
@@ -55,6 +55,18 @@
                 <ul class="side-nav-second-level">
                     <li>
                         <a href="dashboard.php">Analytics</a>
+                    </li>
+                    <li>
+                        <a href="non-conform_status.php">Non Conform Status</a>
+                    </li>
+                    <li>
+                        <a href="conform_status.php">Conform Status</a>
+                    </li>
+                    <li>
+                        <a href="followers_status.php">Followers</a>
+                    </li>
+                    <li>
+                        <a href="messages.php">Newsletters</a>
                     </li>
                     <li>
                         <a href="home.php">Ecommerce</a>
@@ -746,19 +758,6 @@
                 </ul>
             </div>
         </li>
-
-
-        <!-- Help Box -->
-        <div class="help-box text-white text-center">
-            <a href="javascript: void(0);" class="float-end close-btn text-white">
-                <i class="mdi mdi-close"></i>
-            </a>
-            <img src="assets/images/svg/help-icon.svg" height="90" alt="Helper Icon Image" />
-            <h5 class="mt-3">Unlimited Access</h5>
-            <p class="mb-3">Upgrade to plan to get access to unlimited reports</p>
-            <a href="javascript: void(0);" class="btn btn-secondary btn-sm">Upgrade</a>
-        </div>
-        <!-- end Help Box -->
 
 
     </ul>
