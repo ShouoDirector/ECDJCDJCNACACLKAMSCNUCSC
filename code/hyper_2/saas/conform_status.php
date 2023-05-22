@@ -132,18 +132,22 @@
                                                     $stmt = mysqli_prepare($con, "SELECT * FROM roombook WHERE stat = 'Conform'");
                                                     mysqli_stmt_execute($stmt);
                                                     $result = mysqli_stmt_get_result($stmt);
+                                                    ?>
 
-                                                    // Output the table rows for the 'Conform' records
-                                                    while ($row = mysqli_fetch_array($result)) {
-                                                        $firstName = $row['FName'];
-                                                        $lastName = $row['LName'];
-                                                        $email = $row['Email'];
-                                                        $troom = $row['TRoom'];
-                                                        $cinFormatted = date("F j, Y", strtotime($row['cin']));
-                                                        $coutFormatted = date("F j, Y", strtotime($row['cout']));
-                                                        $status = $row['stat'];
+                                                    <tbody>
+                                                        <?php while ($row = mysqli_fetch_array($result)) : ?>
+                                                            <?php
+                                                            $id = $row['id'];
+                                                            $firstName = $row['FName'];
+                                                            $lastName = $row['LName'];
+                                                            $email = $row['Email'];
+                                                            $troom = $row['TRoom'];
+                                                            $cinFormatted = date("F j, Y", strtotime($row['cin']));
+                                                            $coutFormatted = date("F j, Y", strtotime($row['cout']));
+                                                            $status = $row['stat'];
+                                                            ?>
 
-                                                        echo "<tr>
+                                                            <tr>
                                                                 <td>
                                                                     <div class='form-check'>
                                                                         <input type='checkbox' class='form-check-input' id='customCheck2'>
@@ -151,31 +155,31 @@
                                                                     </div>
                                                                 </td>
                                                                 <td class='table-user'>
-                                                                    <a href='javascript:void(0);' class='text-body fw-semibold'>" . $firstName . " " . $lastName . "</a>
+                                                                    <a href='javascript:void(0);' class='text-body fw-semibold'><?php echo $firstName . " " . $lastName; ?></a>
                                                                 </td>
                                                                 <td>
-                                                                    " . $email . "
+                                                                    <?php echo $email; ?>
                                                                 </td>
                                                                 <td>
-                                                                    " . $troom . "
+                                                                    <?php echo $troom; ?>
                                                                 </td>
                                                                 <td>
-                                                                    " . $cinFormatted . "
+                                                                    <?php echo $cinFormatted; ?>
                                                                 </td>
                                                                 <td>
-                                                                    " . $coutFormatted . "
+                                                                    <?php echo $coutFormatted; ?>
                                                                 </td>
                                                                 <td>
-                                                                    <span class='badge " . ($status == 'Conform' ? 'badge-success-lighten' : 'badge-danger-lighten') . "'>" . $status . "</span>
+                                                                    <span class='badge <?php echo ($status == 'Conform' ? 'badge-success-lighten' : 'badge-danger-lighten'); ?>'><?php echo $status; ?></span>
                                                                 </td>
                                                                 <td class='text-center'>
-                                                                    <span class='btn btn-sm btn-primary'>Print</span>
+                                                                    <a href='show.php?sid=<?php echo $id; ?>' class='btn btn-sm btn-primary'>Print</a>
                                                                 </td>
-                                                            </tr>";
-                                                    }
-                                                    ?>
+                                                            </tr>
 
-                                                </tbody>
+                                                        <?php endwhile; ?>
+                                                    </tbody>
+
 
                                             </table>
                                         </div>

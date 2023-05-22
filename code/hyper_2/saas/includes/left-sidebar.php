@@ -69,6 +69,9 @@
                         <a href="messages.php">Newsletters</a>
                     </li>
                     <li>
+                        <a href="roombook.php">Room Booking</a>
+                    </li>
+                    <li>
                         <a href="home.php">Ecommerce</a>
                     </li>
                     <li>

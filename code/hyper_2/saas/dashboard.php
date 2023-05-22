@@ -1,4 +1,117 @@
 <?php @include 'includes/session.php' ?>
+<?php
+include('db.php');
+
+// Function to get the total rent with the condition
+function getTotalRent()
+{
+    global $con;
+
+    $query = "SELECT SUM(rent_price) AS total_rent FROM room WHERE place = 'Occupied'";
+    $result = mysqli_query($con, $query);
+
+    // Check if the query was successful
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        return $row['total_rent'];
+    }
+
+    // Handle the case where the query failed or no rows found
+    return 0;
+}
+
+// Function to calculate the total meal costs
+function calculateTotalMealCosts()
+{
+    global $con;
+
+    $mealPricesQuery = "SELECT name, price FROM meal";
+    $mealPricesResult = mysqli_query($con, $mealPricesQuery);
+
+    $mealPrices = array();
+    while ($row = mysqli_fetch_assoc($mealPricesResult)) {
+        $mealPrices[$row['name']] = $row['price'];
+    }
+
+    $roombookQuery = "SELECT id FROM roombook WHERE stat = 'Conform'";
+    $roombookResult = mysqli_query($con, $roombookQuery);
+
+    $customerOrders = array();
+    while ($row = mysqli_fetch_assoc($roombookResult)) {
+        $id = $row['id'];
+        $customerOrdersQuery = "SELECT Snack, Breakfast, Lunch, Dinner, Special, VIP, Ultimate FROM orders WHERE id = $id";
+        $customerOrdersResult = mysqli_query($con, $customerOrdersQuery);
+        $customerOrdersRow = mysqli_fetch_assoc($customerOrdersResult);
+
+        if ($customerOrdersRow !== null) {
+            $customerOrders[] = $customerOrdersRow;
+        }
+    }
+
+    $total_meal_costs = 0;
+
+    if (!empty($customerOrders)) {
+        foreach ($customerOrders as $orders) {
+            foreach ($orders as $mealType => $quantity) {
+                $mealCost = $mealPrices[$mealType] * $quantity;
+                $total_meal_costs += $mealCost;
+            }
+        }
+    }
+
+    return $total_meal_costs;
+}
+
+// Function to get the total values from the 'payment' table
+function getTotalNotEarnings()
+{
+    global $con;
+
+    $query = "SELECT SUM(ttot) AS room, SUM(btot) AS meal, SUM(tips) AS tips FROM payment";
+    $result = mysqli_query($con, $query);
+
+    // Check if the query was successful
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        return $row;
+    }
+
+    // Handle the case where the query failed or no rows found
+    return array('room' => 0, 'meal' => 0, 'tips' => 0);
+}
+
+// Function to get the total number of customers
+function getTotalCustomers()
+{
+    include ('db.php');
+
+    $sql1 = "SELECT COUNT(*) AS count FROM roombook";
+    $result1 = mysqli_query($con, $sql1);
+    $row1 = mysqli_fetch_assoc($result1);
+    $count1 = $row1['count'];
+
+    return $count1;
+}
+
+// Calculate the total rent
+$total_rent = getTotalRent();
+
+// Calculate the total meal costs
+$total_meal_costs = calculateTotalMealCosts();
+
+// Format the total meal costs to two decimal places
+$total_meal_costs_formatted = number_format($total_meal_costs, 2);
+
+// Get the total values from the 'payment' table
+$totals = getTotalNotEarnings();
+
+// Calculate the total earnings
+$total_earnings_all = $totals['tips'] + $total_meal_costs + $total_rent;
+
+// Close the database connection
+mysqli_close($con);
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -60,25 +173,6 @@
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row align-items-center">
-                                        <?php
-                                        function getTotalCustomers() {
-                                            include('db.php');
-
-                                            $sql1 = "SELECT COUNT(*) AS count FROM roombook";
-                                            $result1 = mysqli_query($con, $sql1);
-                                            $row1 = mysqli_fetch_assoc($result1);
-                                            $count1 = $row1['count'];
-
-                                            $sql2 = "SELECT COUNT(DISTINCT id) AS count FROM payment";
-                                            $result2 = mysqli_query($con, $sql2);
-                                            $row2 = mysqli_fetch_assoc($result2);
-                                            $count2 = $row2['count'];
-
-                                            $totalCustomers = $count1 + $count2;
-
-                                            return $totalCustomers;
-                                        }
-                                        ?>
 
                                         <div class="col-6">
                                             <h5 class="text-muted fw-normal mt-0 text-truncate" title="Customers">
@@ -117,7 +211,7 @@
                                         <div class="col-6">
                                             <h5 class="text-muted fw-normal mt-0 text-truncate" title="Total Earnings">
                                                 Total Earnings</h5>
-                                            <h3 class="my-2 py-1 text-end"><?php echo '₱ ' . getTotalEarnings(); ?></h3>
+                                            <h3 class="my-2 py-1 text-end"><?php echo '₱ ' . $total_earnings_all; ?></h3>
                                         </div>
                                         <div class="col-6">
                                             <div class="text-end">
@@ -217,20 +311,6 @@
                         <!-- ============= TOP ROOMS CARD ============= -->
                         <div class="col-xl-5 col-lg-12 order-lg-1 order-xl-1">
                                 <div class="card">
-                                    <?php
-                                        function getTotalProfit() {
-                                            include('db.php');
-                                        
-                                            $sql = "SELECT SUM(fintot) AS total FROM payment";
-                                            $result = mysqli_query($con, $sql);
-                                            $row = mysqli_fetch_assoc($result);
-                                            $tp = round($row['total']);
-                                            $ttp = ($tp * 10) / 100;
-                                            
-                                            return $ttp;
-                                        }                                        
-                                    ?>
-                                    
                                     <div class="card-body">
                                         <span class="float-start m-2 me-4">
                                             <img src="<?php echo $profilePicURL; ?>" style="height: 100px;" alt="avatar-2" class="rounded-circle img-thumbnail">
@@ -241,8 +321,8 @@
                                     
                                             <ul class="mb-0 list-inline">
                                                 <li class="list-inline-item me-3">
-                                                    <h5 class="mb-1">₱ <?php echo getTotalProfit() ?></h5>
-                                                    <p class="mb-0 font-13">Total Revenue</p>
+                                                    <h5 class="mb-1">₱ <?php echo $total_earnings_all ?></h5>
+                                                    <p class="mb-0 font-13">Total Earnings</p>
                                                 </li>
                                                 <li class="list-inline-item">
                                                     <h5 class="mb-1"><?php echo getTotalFollowers() ?></h5>
@@ -263,16 +343,6 @@
                                             data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="mdi mdi-dots-vertical"></i>
                                         </a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item">Payments List</a>
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item">Profit</a>
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item">Action</a>
-                                        </div>
                                     </div>
                                 </div>
 
@@ -281,7 +351,7 @@
                                         <?php
                                         include('db.php');
 
-                                        $sql = "SELECT troom, SUM(fintot) AS total_amount, COUNT(*) AS customer_count, MAX(cout) AS latest_date FROM payment GROUP BY troom ORDER BY total_amount DESC";
+                                        $sql = "SELECT troom, SUM(ttot) AS total_amount, COUNT(*) AS customer_count, MAX(cout) AS latest_date FROM payment GROUP BY troom ORDER BY total_amount DESC";
                                         $result = mysqli_query($con, $sql);
                                         ?>
 
@@ -327,16 +397,6 @@
                                             <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="mdi mdi-dots-vertical"></i>
                                             </a>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                <!-- item-->
-                                                <a href="javascript:void(0);" class="dropdown-item">Today</a>
-                                                <!-- item-->
-                                                <a href="javascript:void(0);" class="dropdown-item">Yesterday</a>
-                                                <!-- item-->
-                                                <a href="javascript:void(0);" class="dropdown-item">Last Week</a>
-                                                <!-- item-->
-                                                <a href="javascript:void(0);" class="dropdown-item">Last Month</a>
-                                            </div>
                                         </div>
                                     </div>
 
@@ -403,16 +463,6 @@
                                             data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="mdi mdi-dots-vertical"></i>
                                         </a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item">Profit</a>
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item">Action</a>
-                                        </div>
                                     </div>
                                 </div>
                                 
@@ -420,39 +470,17 @@
                                 <div class="card-body pt-0">
                                 <div id="average-sales" class="apex-charts mb-4 mt-2"
                                             data-colors="#727cf5,#0acf97,#fa5c7c,#ffbc00"></div>
-
-                                            <?php
-                                                function getTotalNotEarnings()
-                                                {
-                                                    include('db.php');
-                                                    
-                                                    // Fetch the total sums of values from the 'payment' table
-                                                    $query = "SELECT SUM(ttot) AS room, SUM(mepr) AS bed, SUM(btot) AS meal, SUM(tips) AS tips FROM payment";
-                                                    $result = mysqli_query($con, $query);
-                                                    $row = mysqli_fetch_assoc($result);
-                                                    
-                                                    // Close the database connection
-                                                    mysqli_close($con);
-                                                    
-                                                    // Return the total values as an array
-                                                    return $row;
-                                                }
-
-                                                // Call the function to retrieve the values
-                                                $totals = getTotalNotEarnings();
-                                                ?>
+                                            
+                                            
+                                            
                                                 <div class="chart-widget-list">
                                                     <p>
                                                         <i class="mdi mdi-square text-primary"></i> Room Rent
-                                                        <span class="float-end">₱ <?php echo $totals['room']; ?></span>
-                                                    </p>
-                                                    <p>
-                                                        <i class="mdi mdi-square text-danger"></i> Bed Rent
-                                                        <span class="float-end">₱ <?php echo $totals['bed']; ?></span>
+                                                        <span class="float-end">₱ <?php echo $total_rent ?></span>
                                                     </p>
                                                     <p>
                                                         <i class="mdi mdi-square text-success"></i> Meals
-                                                        <span class="float-end">₱ <?php echo $totals['meal']; ?></span>
+                                                        <span class="float-end">₱ <?php echo $total_meal_costs_formatted ?></span>
                                                     </p>
                                                     <p class="mb-0">
                                                         <i class="mdi mdi-square text-warning"></i> Tips
