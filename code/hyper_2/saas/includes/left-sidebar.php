@@ -16,7 +16,7 @@
         <img src="https://cdn-icons-png.flaticon.com/128/3074/3074046.png" alt="dark logo"> <span style="font-size: 16px; font-weight: bold;">Pinarik</span>
     </span>
     <span class="logo-sm">
-        <img src="https://cdn-icons-png.flaticon.com/128/3074/3074046.pngg" alt="small logo">
+        <img src="https://cdn-icons-png.flaticon.com/128/3074/3074046.png" alt="small logo">
     </span>
 </a>
 
@@ -69,9 +69,21 @@
                         <a href="messages.php">Newsletters</a>
                     </li>
                     <li>
-                        <a href="roombook.php">Room Booking</a>
+                        <a href="insert.php">Insert</a>
                     </li>
                     <li>
+                        <a href="payment.php">Payments</a>
+                    </li>
+                    <li>
+                        <a href="profile.php">Profile Settings</a>
+                    </li>
+                    <li>
+                        <a href="roombook.php" id="unclickable0">Room Booking</a>
+                    </li>
+                    <li>
+                        <a href="show.php" id="unclickable">Invoice</a>
+                    </li>
+                    <!-- <li>
                         <a href="home.php">Ecommerce</a>
                     </li>
                     <li>
@@ -82,11 +94,11 @@
                     </li>
                     <li>
                         <a href="dashboard-wallet.html">E-Wallet</a>
-                    </li>
+                    </li>-->
                 </ul>
             </div>
         </li>
-
+<!--
         <li class="side-nav-title">Apps</li>
 
         <li class="side-nav-item">
@@ -760,12 +772,25 @@
                     </li>
                 </ul>
             </div>
-        </li>
+        </li> -->
 
 
     </ul>
     <!--- End Sidemenu -->
 
     <div class="clearfix"></div>
+
+    <script>
+    var linkElement = document.getElementById("unclickable");
+
+    linkElement.addEventListener("click", function(event) {
+    event.preventDefault();
+    });
+    var linkElement = document.getElementById("unclickable0");
+
+    linkElement.addEventListener("click", function(event) {
+    event.preventDefault();
+    });
+</script>
 </div>
 </div>

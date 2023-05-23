@@ -59,7 +59,7 @@ if (isset($_SESSION["user"])) {
                         <!-- Logo -->
                         <div class="card-header py-4 text-center opacity-75 bg-dark-subtle">
                             <a href="#">
-                                <span><img src="../assets/images/hyper.png" alt="logo" height="62"></span>
+                                <span><img src="https://cdn-icons-png.flaticon.com/128/3074/3074046.png" alt="logo" height="62"></span>
                             </a>
                         </div>
 
